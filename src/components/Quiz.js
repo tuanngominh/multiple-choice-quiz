@@ -4,23 +4,49 @@ import MultipleChoices from './questions/MultipleChoices'
 import FillInTheBlank from './questions/FillInTheBlank'
 import LongFormSA from './questions/LongFormSA'
 import Instruction from './questions/Instruction'
+import Finish from './Finish'
+import StepZilla from 'react-stepzilla'
+import '../../node_modules/react-stepzilla/src/css/main.css'
+
+const ThankYou = () => (<div>Thank you for joining us</div>)
 
 class Quiz extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      value: ''
+      answers: []
     }
+  }
+
+  handleSelect = (questionId, response) => {
+    // console.log(questionId, answer)
+    this.setState((prevState, props) => {
+      const found = prevState.answers.find(answer => answer.id === questionId)
+      if (found) {
+        const answers = prevState.answers.slice(0)
+        const updateAnswers = answers.map(answer => {
+          if (answer.id === questionId) {
+            answer.response = response
+          }
+          return answer
+        })
+        return {answers: updateAnswers}
+      } else {
+        return {
+          answers: [...prevState.answers, {id: questionId, response: response}]
+        }
+      }
+    })
   }
 
   renderQuestion = (question) => {
     switch(question.type) {
       case 'multiple_choice':
-        return <MultipleChoices {...question} />
+        return <MultipleChoices {...question} onSelect={this.handleSelect} />
       case 'fill_in_the_blank':
-        return <FillInTheBlank {...question} />
+        return <FillInTheBlank {...question} onSelect={this.handleSelect} />
       case 'essay':
-        return <LongFormSA {...question} />
+        return <LongFormSA {...question} onSelect={this.handleSelect} />
       case 'instruction':
         return <Instruction {...question} />
       default:
@@ -29,9 +55,24 @@ class Quiz extends Component {
   }
 
   render() {
+    let steps = this.props.questions.map(question => {
+      return {
+        name: 'Step ' + question.id,
+        component: this.renderQuestion(question)
+      }
+    })
+    steps.push({
+      name: 'Finish',
+      component: <Finish answers={this.state.answers} />
+    })
     return (
-      <div>
-        {this.props.questions.map(question => this.renderQuestion(question))}
+      <div className='step-progress'>
+        {(this.props.questions && this.props.questions.length) &&
+          <StepZilla
+            steps={steps}
+             prevBtnOnLastStep={false} nextTextOnFinalActionStep="Finish"
+          />
+        }
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch'
 import Quiz from './components/Quiz'
-import './App.scss';
+import './App.css';
 
 class App extends Component {
   constructor (props) {
@@ -29,7 +29,13 @@ class App extends Component {
 
   render() {
     return (
-      <Quiz questions={this.state.questions} />
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-12">
+            <Quiz questions={this.state.questions} />
+          </div>
+        </div>
+      </div>
     );
   }
 }
