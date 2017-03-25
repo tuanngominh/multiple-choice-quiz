@@ -3,6 +3,7 @@ import { storiesOf, action, linkTo } from '@kadira/storybook'
 import MultipleChoices from '../components/questions/MultipleChoices'
 import FillInTheBlank from '../components/questions/FillInTheBlank'
 import LongFormSA from '../components/questions/LongFormSA'
+import Instruction from '../components/questions/Instruction'
 
 storiesOf('Multiple choice quiz', module)
   .add('MultipleChoices', () => {
@@ -47,6 +48,15 @@ storiesOf('Multiple choice quiz', module)
     }
     return (
       <LongFormSA {...props} />
+    )
+  })
+  .add('Instruction', () => {
+    const props = {
+      "id": 5,
+      question: "Login to the server application on https://localhost:38"
+    }
+    return (
+      <Instruction {...props} />
     )
   })
   ;
