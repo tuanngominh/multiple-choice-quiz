@@ -12,7 +12,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('/quiz-sample-data.json')
+    fetch('/multiple-choice-quiz/quiz-sample-data.json')
       .then((response) => {
         return response.json()
       })

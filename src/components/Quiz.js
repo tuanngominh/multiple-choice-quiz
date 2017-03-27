@@ -8,8 +8,6 @@ import Finish from './Finish'
 import StepZilla from 'react-stepzilla'
 import '../../node_modules/react-stepzilla/src/css/main.css'
 
-const ThankYou = () => (<div>Thank you for joining us</div>)
-
 class Quiz extends Component {
   constructor (props) {
     super(props)
